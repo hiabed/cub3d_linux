@@ -6,7 +6,7 @@
 /*   By: ayylaaba <ayylaaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 19:04:51 by ayylaaba          #+#    #+#             */
-/*   Updated: 2023/08/13 12:06:08 by ayylaaba         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:29:56 by ayylaaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 #  define BUFFER_SIZE 2147
 # endif
 
+# ifndef M_PI
+# define M_PI 3.14
+# endif
+
+
 typedef struct creat_data
 {
 	// int         x;
@@ -34,8 +39,23 @@ typedef struct creat_data
 	// void        *image;
 }			t_data;
 
+typedef struct s_imgs
+{
+	void	*img;
+	int		width;
+	int		height;
+	char	*img_color;
+	char	*add;
+	int		line;
+	int		bits;
+	int		wa33;
+}	t_imgs;
+
 typedef struct creat_picture
 {
+	int		start;
+	t_imgs	*imgs;
+	int		begin;
 	int		old_s;
 	t_data	*data;
 	char	dir_h;
@@ -81,14 +101,21 @@ typedef struct creat_picture
 	float	tx_hor;
 	float	ty_hor;
 	float	ray_distance_hor;
-	float	ray_distance_hor_store;
 	float	tx_ver;
 	float	ty_ver;
 	float	ray_distance_ver;
 	float	new_ray_distance;
-	float	ray_distance_ver_store;
+	float	ray_distancee;
+	float	tx;
+	float	ty;
 }			t_picture;
 
+
+int	is_wall_move(t_picture *data, float x, float y);
+void		init(t_picture *data);
+void		my_put_pixl(t_picture *test, int x, int y, int color);
+void		draw_walls(t_picture *data);
+void		draw_wall(t_picture * data, t_imgs *imgs, int s);
 int			is_wall(t_picture *data, float x, float y);
 void		rotation(t_picture *data);
 void		init_player(char **map, t_picture *test);

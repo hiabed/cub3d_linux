@@ -6,7 +6,7 @@
 /*   By: mhassani <mhassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 10:35:05 by ayylaaba          #+#    #+#             */
-/*   Updated: 2023/08/12 18:28:22 by mhassani         ###   ########.fr       */
+/*   Updated: 2023/08/15 21:50:36 by mhassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,19 @@ void	init_player(char **map, t_picture *test)
 	}
 }
 
+int ft_check_move(t_picture *data ,double x, double y)
+{
+    if (data->map_v3[(int)(y / 64)][(int)(data->x_p / 64)] != '1')
+    {
+        if (data->map_v3[(int)(data->y_p / 64)][(int)(x / 64)] != '1')
+        {
+            if (data->map_v3[(int)(y / 64)][(int)(x / 64)] != '1')
+                return 1;
+        }
+    }
+    return (0);
+}
+
 void	move_up(t_picture *data)
 {
     double x,y;
@@ -45,6 +58,8 @@ void	move_up(t_picture *data)
     y = data->y_p - sin(data->ray_pos) * data->speed;
 	if (!data->m_up)
 		return ;
+    if (!ft_check_move(data, x, y))
+        return ;
     else if (!is_wall(data, x / 64, y / 64))
     {
         data->x_p += cos(data->ray_pos) * data->speed;
@@ -60,7 +75,8 @@ void	move_down(t_picture *data)
     y += sin(data->ray_pos) * data->speed;
 	if (!data->m_down)
 		return ;
-
+    if (!ft_check_move(data, x,y))
+        return ;
     else if (!is_wall(data, x / 64, y / 64))
     {
         data->x_p -= cos(data->ray_pos) * data->speed;
@@ -72,11 +88,12 @@ void	move_right(t_picture *data)
 {
     double x, y;
     data->ray_pos = (data->deta + 90) * M_PI / 180;
-    // for check;
     x = data->x_p + cos(data->ray_pos) * data->speed;
     y = data->y_p - sin(data->ray_pos) * data->speed;
 	if (!data->m_right)
 		return ;
+    if (!ft_check_move(data, x,y))
+        return ;
     else if (!is_wall(data, x / 64, y / 64))
     {
         // change player position after wall check;
@@ -93,6 +110,8 @@ void	move_left(t_picture *data)
     y = data->y_p - sin(data->ray_pos) * data->speed;
 	if (!data->m_left)
 		return ;
+     if (!ft_check_move(data, x,y))
+        return ;
     else if (!is_wall(data, x / 64, y / 64))
     {
         data->x_p += cos(data->ray_pos) * data->speed;
